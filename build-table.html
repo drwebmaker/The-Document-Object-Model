@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Build a table</title>
+  <style>
+    table  { border-collapse: collapse; }
+    td, th { border: 1px solid black; padding: 3px 8px; }
+    th     { text-align: left; }
+  </style>
+</head>
+<body>
+
+<h1>Build a table</h1>
+
+<p>We built plaintext tables in Chapter 6. HTML makes laying out tables quite a bit easier. An HTML table is built with
+  the following tag structure:</p>
+
+<p>
+  <pre>
+    &lt;table>
+      &lt;tr>
+        &lt;th>name&lt;/th>
+        &lt;th>height&lt;/th>
+        &lt;th>country&lt;/th>
+      &lt;/tr>
+      &lt;tr>
+        &lt;td>Kilimanjaro&lt;/td>
+        &lt;td>5895&lt;/td>
+        &lt;td>Tanzania&lt;/td>
+      &lt;/tr>
+    &lt;/table>
+  </pre>
+</p>
+
+<p>For each
+  <em>row</em>, the <code>&lt;table&gt;</code> tag contains a <code>&lt;tr&gt;</code> tag. Inside of these <code>&lt;tr&gt;</code> tags,
+  we can put cell elements: either heading cells (<code>&lt;th&gt;</code>) or regular
+  cells (<code>&lt;td&gt;</code>).</p>
+<p>The same
+  source data that was used in <a href="06_object.html#mountains">Chapter 6</a>
+  is again available in the <code>MOUNTAINS</code> variable in the sandbox. It can also be <a href="http://eloquentjavascript.net/code/mountains.js">downloaded</a>
+  from the website.</p>
+<p>Write a function <code>buildTable</code> that, given an array of objects that all
+  have the same set of properties, builds up a DOM structure
+  representing a table. The table should have a header row with the
+  property names wrapped in <code>&lt;th&gt;</code> elements and should have one subsequent row per
+  object in the array, with its property values in <code>&lt;td&gt;</code> elements.</p>
+<p>The <code>Object.keys</code> function, which returns an
+  array containing the property names that an object has, will probably
+  be helpful here.</p>
+
+<div id="table"></div>
+
+<script>
+  var MOUNTAINS = [
+    {name: "Kilimanjaro", height: 5895, country: "Tanzania"},
+    {name: "Everest", height: 8848, country: "Nepal"},
+    {name: "Mount Fuji", height: 3776, country: "Japan"},
+    {name: "Mont Blanc", height: 4808, country: "Italy/France"},
+    {name: "Vaalserberg", height: 323, country: "Netherlands"},
+    {name: "Denali", height: 6168, country: "United States"},
+    {name: "Popocatepetl", height: 5465, country: "Mexico"}
+  ];
+  function buildTable(data) {
+    var tr = document.createElement('tr');
+    var th = document.createElement('th');
+    var td = document.createElement('td');
+    var table = document.getElementById('table').appendChild(document.createElement('table'));
+    var fields = Object.keys(data[0]);
+//    console.log(fields);
+    for(var i = 0; i < fields.length; i++) {
+      var th = document.createElement('th');
+      th.textContent = fields[i];
+      th.style.textTransform = 'capitalize'
+      tr.appendChild(th);
+    }
+
+    table.appendChild(tr);
+
+    data.forEach(function(data) {
+      var tr = document.createElement('tr');
+      fields.forEach(function(field) {
+        var td = document.createElement('td');
+        td.textContent = data[field];
+        if (typeof data[field] == 'number') {
+          td.style.textAlign = 'right';
+        }
+        tr.appendChild(td);
+      });
+      table.appendChild(tr);
+    });
+
+
+    return table;
+
+  }
+
+  document.body.appendChild(buildTable(MOUNTAINS));
+</script>
+
+</body>
+</html>

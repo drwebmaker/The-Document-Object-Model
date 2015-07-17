@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Censored keyboard</title>
+</head>
+<body>
+
+<h1>Censored keyboard</h1>
+
+<p>Between 1928 and 2013, Turkish law forbade the use of the letters Q, W, and X in official documents. This was part of
+  a wider initiative to stifle Kurdish culture—those letters occur in the language used by Kurdish people but not in Istanbul Turkish.<br/>
+
+  As an exercise in doing ridiculous things with technology, I’m asking you to program a text field (an &lt;input type="text"> tag) that
+  these letters cannot be typed into.<br/>
+
+  (Do not worry about copy and paste and other such loopholes.)</p>
+
+<input type="text" style="border: 3px solid black;">
+<script>
+  var field = document.querySelector("input");
+  // Your code here.
+
+  field.addEventListener('keypress', function(event) {
+    if(event.keyCode == 81 || event.keyCode == 87 || event.keyCode == 88 || event.keyCode == 113 || event.keyCode == 119 || event.keyCode == 120) {
+      field.style.borderColor = 'red';
+      event.preventDefault();
+    } else {
+      field.style.borderColor = 'black';
+    }
+  });
+</script>
+
+</body>
+</html>
