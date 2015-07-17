@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Elements by tag name</title>
+</head>
+<body>
+
+<h1>Elements by tag name</h1>
+
+<p>
+  The getElementsByTagName method returns all child elements with a given tag name. Implement your own version of it as
+  a regular nonmethod function that takes a node and a string (the tag name) as arguments and returns an array containing
+  all descendant element nodes with the given tag name. </p>
+<p>
+  To find the tag name of an element, use its tagName property. But note that this will return the tag name in all uppercase.
+  Use the toLowerCase or toUpperCase string method to compensate for this.
+</p>
+<pre>
+  &lt;h2>Heading with a &lt;span>span&lt;/span> element.&lt;/h2>
+  &lt;p>A paragraph with &lt;span>one&lt;/span>, &lt;span>two&lt;/span>spans.&lt;/p>
+</pre>
+
+
+<p>Should console log: <br/>
+  <br/>
+   console.log(byTagName(document.body)); <br/>
+   // → SyntaxError: Bad number of args to byTagName<br/>
+  <br/><br/>
+  console.log(byTagName(document.body, "h2").length);<br/>
+  // → 1<br/><br/><br/>
+  console.log(byTagName(document.body, "span").length);<br/>
+  // → 3<br/><br/><br/>
+  var para = document.querySelector("p");<br/>
+  console.log(byTagName(para, "span").length);<br/>
+  // → 2
+</p>
+
+<script>
+
+
+  function byTagName(node, tagName) {
+    var arrTegs = [];
+
+    if(arguments.length != 2) {
+      throw new SyntaxError('Bad number of args to byTagName');
+    } else {
+      tagName = tagName.toUpperCase();
+
+      function getChildren(node) {
+        for(var i = 0; i < node.childNodes.length; i++) {
+          var child = node.childNodes[i];
+          if(child.nodeType === document.ELEMENT_NODE) {
+            if(child.nodeName == tagName) {
+              arrTegs.push(child);
+            }
+            getChildren(child);
+          }
+        }
+      }
+      getChildren(node);
+
+    }
+    return arrTegs;
+  }
+
+
+
+  //  console.log(byTagName(document.body));
+  //  -> SyntaxError: Bad number of args to byTagName
+
+  console.log(byTagName(document.body, "h2").length);
+  // → 1
+  console.log(byTagName(document.body, "span").length);
+  // → 3
+  var para = document.querySelector("p");
+  console.log(byTagName(para, "span").length);
+  // → 2
+</script>
+
+</body>
+</html>

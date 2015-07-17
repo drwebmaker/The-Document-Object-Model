@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>The cat’s hat</title>
+</head>
+<body>
+
+<h1>The cat’s hat</h1>
+
+<p>Extend the cat animation defined earlier so that both the cat and his hat (&lt;img src="img/hat.png">) orbit at opposite sides of the ellipse.<br/>
+
+  Or make the hat circle around the cat. Or alter the animation in some other interesting way.<br/>
+
+  To make positioning multiple objects easier, it is probably a good idea to switch to absolute positioning. This means
+  that top and left are counted relative to the top left of the document. To avoid using negative coordinates, you can
+  simply add a fixed number of pixels to the position values.</p>
+
+<div class="catBlock" style="position: relative; height: 500px; width: 100%">
+  <p style="text-align: center">
+    <img src="http://eloquentjavascript.net/img/cat.png" style="position: absolute">
+  </p>
+  <img src="img/alien.jpg" alt="alien" class="alien" style="position: absolute"/>
+  <img src="img/planet.gif" alt="planet" class="planet"  style="position: absolute"/>
+</div>
+
+<script>
+  var cat = document.querySelector("img");
+  var alien = document.querySelector('.alien');
+  var catBlock = document.querySelector('.catBlock');
+  var planet = document.querySelector('.planet');
+  var angle = 0, lastTime = null;
+  var centerH = catBlock.offsetHeight / 2;
+  var centerW = catBlock.offsetWidth / 2;
+
+  function animate(time) {
+    if (lastTime != null)
+      angle += (time - lastTime) * 0.001;
+    lastTime = time;
+
+    cat.style.top = centerH + (Math.sin(angle) * 20) + "px";
+    cat.style.left = centerW + (Math.cos(angle) * 200) + "px";
+
+    var catTop = centerH + (Math.sin(angle) * 20);
+    var catLeft = centerW + (Math.cos(angle) * 200);
+
+    alien.style.top = catTop + (Math.sin(-angle) * 150) + "px";
+    alien.style.left = catLeft + (Math.cos(-angle) * 150) + "px";
+
+    var alienTop = catTop + (Math.sin(-angle) * 150) - 20;
+    var alienLeft = catLeft + (Math.cos(-angle) * 150);
+
+    planet.style.top = alienTop + (Math.sin(angle) * 40) + "px";
+    planet.style.left = alienLeft + (Math.cos(angle) * 100) + "px";
+
+    requestAnimationFrame(animate);
+  }
+  requestAnimationFrame(animate);
+</script>
+
+</body>
+</html>
